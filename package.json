@@ -1,14 +1,14 @@
 {
-  "name": "angular-nearby-tooltip",
+  "name": "fo-tooltip",
   "version": "1.0.0",
-  "description": "An AngularJS directive to handle link active state",
-  "main": "angular-nearby-tooltip.js",
+  "description": "A nice tooltip",
+  "main": "fo-tooltip.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/forsigner/angular-nearby-tooltip.git"
+    "url": "git+https://github.com/forsigner/fo-tooltip.git"
   },
   "keywords": [
     "angular",
@@ -18,7 +18,7 @@
   "author": "forsigner",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/forsigner/angular-nearby-tooltip/issues"
+    "url": "https://github.com/forsigner/fo-tooltip/issues"
   },
-  "homepage": "https://github.com/forsigner/angular-nearby-tooltip#readme"
+  "homepage": "https://github.com/forsigner/fo-tooltip#readme"
 }

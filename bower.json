@@ -1,7 +1,7 @@
 {
-  "name": "angular-nearby-tooltip",
+  "name": "fo-tooltip",
   "version": "1.0.3",
-  "homepage": "https://github.com/forsigner/angular-nearby-tooltip",
+  "homepage": "https://github.com/forsigner/fo-tooltip",
   "authors": [
     "forsigner"
   ],
@@ -9,7 +9,7 @@
   "moduleType": [
     "globals"
   ],
-  "main": "src/angular-nearby-tooltip.js",
+  "main": "dist/js/fo-tooltip.js",
   "keywords": [
     "angular",
     "nearby",
