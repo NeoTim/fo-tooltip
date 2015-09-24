@@ -1,0 +1,30 @@
+{
+  "name": "angular-nearby-tooltip",
+  "version": "1.0.3",
+  "homepage": "https://github.com/forsigner/angular-nearby-tooltip",
+  "authors": [
+    "forsigner"
+  ],
+  "description": "angular tooltip",
+  "moduleType": [
+    "globals"
+  ],
+  "main": "src/angular-nearby-tooltip.js",
+  "keywords": [
+    "angular",
+    "nearby",
+    "tooltip",
+    "tether"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "tether": "*"
+  }
+}
