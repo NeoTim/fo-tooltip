@@ -95,24 +95,6 @@
               offset: '0 -10px',
               attachment: 'bottom left',
               targetAttachment: 'bottom right'
-            },
-
-            //diagonal
-            top_left_diagonal: {
-              attachment: 'bottom right',
-              targetAttachment: 'top left'
-            },
-            top_right_diagonal: {
-              attachment: 'bottom left',
-              targetAttachment: 'top right'
-            },
-            bottom_left_diagonal: {
-              attachment: 'top right',
-              targetAttachment: 'bottom left'
-            },
-            bottom_right_diagonal: {
-              attachment: 'top left',
-              targetAttachment: 'bottom right'
             }
 
           },
@@ -143,6 +125,8 @@
 
         $compile($tooltip)(scope);
 
+        ////////////////////////////////////////////////////////
+
         scope.closeTooltip = tooltip.close;
 
         element.on('mouseenter', function(e) {
@@ -166,7 +150,6 @@
           $tooltip.removeClass('tooltip-hover');
           tooltip.close();
         });
-
 
       }
     };
