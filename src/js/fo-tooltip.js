@@ -11,22 +11,10 @@
       scope: true,
       link: function(scope, element, attr) {
 
-        var templateString = $templateCache.get(attr.tooltipTemplate);
+        var $tooltip = createTooltipElement();
 
-        var $wrapper = angular.element('<div class="fo-tooltip"></div>');
-        var positionClass = attr.tooltipPosition.split(' ').join('-');
-        $wrapper[0].id = attr.tooltipId;
-        $wrapper.addClass(attr.tooltipClass);
-        $wrapper.addClass(positionClass);
-
-        var $tooltip = angular.element($wrapper).append(templateString);
-
-        element.after($tooltip);
-
-        var tooltipType = attr.tooltipPosition.split(' ').join('_');
-
-        // default config
         var tooltip = {
+          element: createTooltipElement(),
 
           type: {
             // top
@@ -100,32 +88,33 @@
           },
 
           isOpened: function() {
-            return $tooltip.hasClass('open');
+            return tooltip.element.hasClass('open');
           },
 
           open: function() {
             var tetherOption = {
-              element: $tooltip[0],
+              element: tooltip.element[0],
               target: element[0],
               attachment: 'bottom middle',
               targetAttachment: 'top middle',
               offset: attr.tooltipOffset
             };
+            var tooltipType = attr.tooltipPosition.split(' ').join('_');
 
             tetherOption = angular.extend(tetherOption, tooltip.type[tooltipType]);
-
-            $tooltip.addClass('open');
+            tooltip.element.addClass('open');
             new Tether(tetherOption);
           },
 
           close: function() {
-            $tooltip.removeClass('open');
+            tooltip.element.removeClass('open');
           }
         };
 
-        $compile($tooltip)(scope);
 
-        ////////////////////////////////////////////////////////
+        element.after(tooltip.element);
+
+        $compile(tooltip.element)(scope);
 
         scope.closeTooltip = tooltip.close;
 
@@ -135,21 +124,32 @@
 
         element.on('mouseleave', function(e) {
           $timeout(function() {
-            if (!$tooltip.hasClass('tooltip-hover')) {
+            if (!tooltip.element.hasClass('tooltip-hover')) {
               tooltip.close();
             }
-          }, 300)
+          }, 200)
         });
 
-        $tooltip.on('mouseenter', function(e) {
-          $tooltip.addClass('tooltip-hover');
+        tooltip.element.on('mouseenter', function(e) {
+          tooltip.element.addClass('tooltip-hover');
           tooltip.open();
         });
 
-        $tooltip.on('mouseleave', function(e) {
-          $tooltip.removeClass('tooltip-hover');
+        tooltip.element.on('mouseleave', function(e) {
+          tooltip.element.removeClass('tooltip-hover');
           tooltip.close();
         });
+
+        /////////////////////////////////////////////
+        function createTooltipElement() {
+          var templateString = $templateCache.get(attr.tooltipTemplate);
+          var positionClass = attr.tooltipPosition.split(' ').join('-');
+          var $wrapper = angular.element('<div class="fo-tooltip"></div>');
+          $wrapper[0].id = attr.tooltipId;
+          $wrapper.addClass(attr.tooltipClass);
+          $wrapper.addClass(positionClass);
+          return angular.element($wrapper).append(templateString);
+        }
 
       }
     };
