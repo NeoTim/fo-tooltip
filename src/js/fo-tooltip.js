@@ -4,7 +4,11 @@
   angular.module('foTooltip', [])
 
   // @ngInject
-  .directive('foTooltip', function($timeout, $templateCache, $document, $compile) {
+  .directive('foTooltip', foTooltip);
+
+  foTooltip.$inject = ['$timeout', '$templateCache', '$document', '$compile'];
+
+  function foTooltip($timeout, $templateCache, $document, $compile) {
     return {
 
       restrict: 'A',
@@ -153,6 +157,6 @@
 
       }
     };
-  });
+  }
 
 })(window, window.angular);
