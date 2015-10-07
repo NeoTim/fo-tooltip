@@ -5,6 +5,7 @@
   padding: 15px;
   background: #000;
   color: #fff;
+  z-index: 1000;
 }
 .fo-tooltip.open {
   display: inline-block;
