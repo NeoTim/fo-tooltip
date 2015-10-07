@@ -122,7 +122,7 @@
 
         scope.closeTooltip = tooltip.close;
 
-        element.on('mouseenter', function(e) {
+        element.on('mouseover', function(e) {
           tooltip.open();
         });
 
@@ -141,6 +141,10 @@
 
         tooltip.element.on('mouseleave', function(e) {
           tooltip.element.removeClass('tooltip-hover');
+          tooltip.close();
+        });
+
+        element.on('click', function(e) {
           tooltip.close();
         });
 
