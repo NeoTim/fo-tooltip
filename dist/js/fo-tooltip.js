@@ -116,7 +116,8 @@
         };
 
 
-        element.after(tooltip.element);
+        var $body = $document.find('body');
+        $body.append(tooltip.element);
 
         $compile(tooltip.element)(scope);
 
