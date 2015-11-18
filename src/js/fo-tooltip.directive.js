@@ -22,7 +22,6 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
     scope: true,
     link: function(scope, element, attr) {
       var tooltip = new Tooltip($templateCache, element, attr);
-
       appendToBody(tooltip.element);
       compileToScope(tooltip.element, scope);
 
