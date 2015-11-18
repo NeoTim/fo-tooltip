@@ -171,12 +171,14 @@ module.exports = function ($templateCache, element, attr) {
   }
 
   function getCurrentPosition() {
+    var that = {};
+    that.positions = angular.copy(positions);
     var position = attr.tooltipPosition.split(' ').join('_');
-    if (attr.toolipOffset) {
-      return angular.extend(positions[position], { offset: attr.tooltipOffset });
-    };
-    return positions[position];
-  }
+    if (attr.tooltipOffset) {
+      return angular.extend(that.positions[position], { offset: attr.tooltipOffset });
+    }
+    return that.positions[position];
+  };
 
   this.element = createTooltipElement();
 
