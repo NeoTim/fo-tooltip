@@ -31,6 +31,7 @@ angular.module('app', ['foTooltip']);
 <div
   class="tooltip-demo"
   tooltip-position="top left"
+  tooltip-class="hello"
   tooltip-template="tooltip-top-left.html"
   fo-tooltip
 >
