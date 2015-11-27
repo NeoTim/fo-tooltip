@@ -3,7 +3,7 @@ let positions = require('./positions');
 module.exports = function($templateCache, element, attr) {
 
   function createTooltipElement() {
-    let templateString = $templateCache.get(attr.tooltipTemplate);
+    let templateString = attr.tooltipTemplateStr? (attr.tooltipTemplateStr) :$templateCache.get(attr.tooltipTemplateUrl);
     let positionClass = attr.tooltipPosition.split(' ').join('-');
     let $wrapper = angular.element('<div class="fo-tooltip"></div>');
     $wrapper[0].id = attr.tooltipId;

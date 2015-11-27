@@ -30,6 +30,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
       scope.closeTooltip = tooltip.close;
 
       element.on('mouseover', function (e) {
+        angular.element('.fo-tooltip').removeClass('open');
         tooltip.open();
       });
 
@@ -147,7 +148,7 @@ var positions = require('./positions');
 module.exports = function ($templateCache, element, attr) {
 
   function createTooltipElement() {
-    var templateString = $templateCache.get(attr.tooltipTemplate);
+    var templateString = attr.tooltipTemplateStr ? attr.tooltipTemplateStr : $templateCache.get(attr.tooltipTemplateUrl);
     var positionClass = attr.tooltipPosition.split(' ').join('-');
     var $wrapper = angular.element('<div class="fo-tooltip"></div>');
     $wrapper[0].id = attr.tooltipId;
