@@ -27,12 +27,13 @@ bower install fo-tooltip --save
 angular.module('app', ['foTooltip']);
 ```
 
+#### template-url
 ``` html
 <div
   class="tooltip-demo"
   tooltip-position="top left"
   tooltip-class="hello"
-  tooltip-template="tooltip-top-left.html"
+  tooltip-template-url="tooltip-top-left.html"
   fo-tooltip
 >
 Top Left
@@ -40,4 +41,17 @@ Top Left
 <script id="tooltip-top-left.html" type="text/ng-template">
   Top Left
 </script>
+```
+#### template-str
+``` html
+<div
+  class="tooltip-demo"
+  tooltip-position="top left"
+  tooltip-class="hello"
+  tooltip-template-str="tooltip show me"
+  fo-tooltip
+>
+Top Left
+</div>
+
 ```
