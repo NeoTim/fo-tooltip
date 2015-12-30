@@ -30,7 +30,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
       scope.closeTooltip = tooltip.close;
 
       element.on('mouseover', function (e) {
-        angular.element('.fo-tooltip').removeClass('open');
+        angular.element(document.querySelector('.fo-tooltip')).removeClass('open');
         tooltip.open();
       });
 

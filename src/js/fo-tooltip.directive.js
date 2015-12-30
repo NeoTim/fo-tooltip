@@ -29,7 +29,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
       scope.closeTooltip = tooltip.close;
 
       element.on('mouseover', function(e) {
-        angular.element('.fo-tooltip').removeClass('open');
+        angular.element(document.querySelector('.fo-tooltip')).removeClass('open');
         tooltip.open();
       });
 
@@ -38,7 +38,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
           if (!tooltip.element.hasClass('tooltip-hover')) {
             tooltip.close();
           }
-        }, 200)
+        }, 200);
       });
 
       tooltip.element.on('mouseenter', function(e) {
@@ -55,6 +55,6 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
         tooltip.close();
       });
 
-    }
+    },
   };
 }
