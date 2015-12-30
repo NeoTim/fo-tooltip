@@ -3,10 +3,14 @@ let positions = require('./positions');
 module.exports = function($templateCache, element, attr) {
 
   function createTooltipElement() {
-    let templateString = attr.tooltipTemplateStr? (attr.tooltipTemplateStr) :$templateCache.get(attr.tooltipTemplateUrl);
+    let templateString = attr.tooltipTemplateStr ? (attr.tooltipTemplateStr) : $templateCache.get(attr.tooltipTemplateUrl);
     let positionClass = attr.tooltipPosition.split(' ').join('-');
     let $wrapper = angular.element('<div class="fo-tooltip"></div>');
-    $wrapper[0].id = attr.tooltipId;
+
+    if (attr.tooltipId) {
+      $wrapper[0].id = attr.tooltipId;
+    }
+
     $wrapper.addClass(attr.tooltipClass);
     $wrapper.addClass(positionClass);
     return angular.element($wrapper).append(templateString);
@@ -18,7 +22,7 @@ module.exports = function($templateCache, element, attr) {
       target: element[0],
       attachment: 'bottom middle',
       targetAttachment: 'top middle',
-      offset: attr.tooltipOffset
+      offset: attr.tooltipOffset,
     };
 
     let currentPosition = getCurrentPosition();
@@ -33,6 +37,7 @@ module.exports = function($templateCache, element, attr) {
     if (attr.tooltipOffset) {
       return angular.extend(that.positions[position], {offset: attr.tooltipOffset});
     }
+
     return that.positions[position];
   };
 
@@ -44,7 +49,7 @@ module.exports = function($templateCache, element, attr) {
 
   this.open = function() {
     this.element.addClass('open');
-    placeToolitp(this.element)
+    placeToolitp(this.element);
   }.bind(this);
 
   this.close = function() {

@@ -151,7 +151,11 @@ module.exports = function ($templateCache, element, attr) {
     var templateString = attr.tooltipTemplateStr ? attr.tooltipTemplateStr : $templateCache.get(attr.tooltipTemplateUrl);
     var positionClass = attr.tooltipPosition.split(' ').join('-');
     var $wrapper = angular.element('<div class="fo-tooltip"></div>');
-    $wrapper[0].id = attr.tooltipId;
+
+    if (attr.tooltipId) {
+      $wrapper[0].id = attr.tooltipId;
+    }
+
     $wrapper.addClass(attr.tooltipClass);
     $wrapper.addClass(positionClass);
     return angular.element($wrapper).append(templateString);
@@ -178,6 +182,7 @@ module.exports = function ($templateCache, element, attr) {
     if (attr.tooltipOffset) {
       return angular.extend(that.positions[position], { offset: attr.tooltipOffset });
     }
+
     return that.positions[position];
   };
 
