@@ -5,16 +5,15 @@
   "authors": [
     "forsigner"
   ],
-  "description": "angular tooltip",
+  "description": "A nice tooltip for Angular",
   "moduleType": [
     "globals"
   ],
   "main": "dist/js/fo-tooltip.js",
   "keywords": [
     "angular",
-    "nearby",
     "tooltip",
-    "tether"
+    "beside"
   ],
   "license": "MIT",
   "ignore": [
@@ -25,6 +24,5 @@
     "tests"
   ],
   "dependencies": {
-    "tether": "*"
   }
 }
