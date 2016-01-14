@@ -1,4 +1,4 @@
-let positions = require('./positions');
+let offset = require('./offset');
 
 module.exports = function($templateCache, element, attr) {
 
@@ -17,29 +17,23 @@ module.exports = function($templateCache, element, attr) {
   }
 
   function placeToolitp(tooltipElement) {
-    let tetherOption = {
-      element: tooltipElement[0],
-      target: element[0],
-      attachment: 'bottom middle',
-      targetAttachment: 'top middle',
-      offset: attr.tooltipOffset,
+    let besideOption = {
+      me: element[0],
+      you: tooltipElement[0],
+      where: 'bottom center',
+      offset: '0 0'
     };
 
-    let currentPosition = getCurrentPosition();
-    tetherOption = angular.extend(tetherOption, currentPosition);
-    new Tether(tetherOption);
-  }
-
-  function getCurrentPosition() {
-    var that = {};
-    that.positions = angular.copy(positions);
     let position = attr.tooltipPosition.split(' ').join('_');
-    if (attr.tooltipOffset) {
-      return angular.extend(that.positions[position], {offset: attr.tooltipOffset});
-    }
 
-    return that.positions[position];
-  };
+    besideOption = angular.extend(besideOption, {offset: offset[position]});
+
+    besideOption = angular.extend(besideOption, {
+      where: attr.tooltipPosition
+    });
+
+    beside.init(besideOption);
+  }
 
   this.element = createTooltipElement();
 
@@ -55,5 +49,4 @@ module.exports = function($templateCache, element, attr) {
   this.close = function() {
     this.element.removeClass('open');
   }.bind(this);
-
 };

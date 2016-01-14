@@ -70,80 +70,31 @@ module.exports = angular.module('foTooltip', [foTooltipDirective.name]);
 'use strict';
 
 module.exports = {
-  // top
-  top_middle: {
-    offset: '10px 0',
-    attachment: 'bottom middle',
-    targetAttachment: 'top middle'
-  },
-  top_left: {
-    offset: '10px 0',
-    attachment: 'bottom left',
-    targetAttachment: 'top left'
-  },
-  top_right: {
-    offset: '10px 0',
-    attachment: 'bottom right',
-    targetAttachment: 'top right'
-  },
+  //top
+  top_center: '0 -10px',
+  top_left: '0 -10px',
+  top_right: '0 -10px',
 
   // bottom
-  bottom_middle: {
-    offset: '-10px 0',
-    attachment: 'top middle',
-    targetAttachment: 'bottom middle'
-  },
-  bottom_left: {
-    offset: '-10px 0',
-    attachment: 'top left',
-    targetAttachment: 'bottom left'
-  },
-  bottom_right: {
-    offset: '-10px 0',
-    attachment: 'top right',
-    targetAttachment: 'bottom right'
-  },
+  bottom_center: '0 10px',
+  bottom_left: '0 10px',
+  bottom_right: '0 10px',
 
   // left
-  left_middle: {
-    offset: '0 10px',
-    attachment: 'middle right',
-    targetAttachment: 'middle left'
-  },
-  left_top: {
-    offset: '0 10px',
-    attachment: 'top right',
-    targetAttachment: 'top left'
-  },
-  left_bottom: {
-    offset: '0 10px',
-    attachment: 'bottom right',
-    targetAttachment: 'bottom left'
-  },
+  left_center: '-10px 0',
+  left_top: '-10px 0',
+  left_bottom: '-10px 0',
 
   // right
-  right_middle: {
-    offset: '0 -10px',
-    attachment: 'middle left',
-    targetAttachment: 'middle right'
-  },
-  right_top: {
-    offset: '0 -10px',
-    attachment: 'top left',
-    targetAttachment: 'top right'
-  },
-  right_bottom: {
-    offset: '0 -10px',
-    attachment: 'bottom left',
-    targetAttachment: 'bottom right'
-  }
-
+  right_center: '10px 0',
+  right_top: '10px 0',
+  right_bottom: '10px 0'
 };
 
 },{}],4:[function(require,module,exports){
 'use strict';
 
-var positions = require('./positions');
+var offset = require('./offset');
 
 module.exports = function ($templateCache, element, attr) {
 
@@ -162,29 +113,23 @@ module.exports = function ($templateCache, element, attr) {
   }
 
   function placeToolitp(tooltipElement) {
-    var tetherOption = {
-      element: tooltipElement[0],
-      target: element[0],
-      attachment: 'bottom middle',
-      targetAttachment: 'top middle',
-      offset: attr.tooltipOffset
+    var besideOption = {
+      me: element[0],
+      you: tooltipElement[0],
+      where: 'bottom center',
+      offset: '0 0'
     };
 
-    var currentPosition = getCurrentPosition();
-    tetherOption = angular.extend(tetherOption, currentPosition);
-    new Tether(tetherOption);
-  }
-
-  function getCurrentPosition() {
-    var that = {};
-    that.positions = angular.copy(positions);
     var position = attr.tooltipPosition.split(' ').join('_');
-    if (attr.tooltipOffset) {
-      return angular.extend(that.positions[position], { offset: attr.tooltipOffset });
-    }
 
-    return that.positions[position];
-  };
+    besideOption = angular.extend(besideOption, { offset: offset[position] });
+
+    besideOption = angular.extend(besideOption, {
+      where: attr.tooltipPosition
+    });
+
+    beside.init(besideOption);
+  }
 
   this.element = createTooltipElement();
 
@@ -202,4 +147,4 @@ module.exports = function ($templateCache, element, attr) {
   }).bind(this);
 };
 
-},{"./positions":3}]},{},[2]);
+},{"./offset":3}]},{},[2]);
