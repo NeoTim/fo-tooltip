@@ -11,14 +11,14 @@ bower install fo-tooltip --save
 
 #### Require
 
-[Tether](https://github.com/HubSpot/tether)
+[Beside](https://github.com/forsigner/beside)
 
 ### Usage
 
 ``` html
 <link rel="stylesheet" href="bower_components/fo-tooltip/dist/css/fo-tooltip.css" />
 
-<script src="bower_components/tether/dist/js/tether.js"></script>
+<script src="bower_components/beside/dist/js/beside.js"></script>
 <script src="bower_components/fo-tooltip/dist/js/fo-tooltip.js"></script>
 
 ```
