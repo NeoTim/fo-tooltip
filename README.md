@@ -1,7 +1,7 @@
 # fo-tooltip
 A nice tooltip
 
-[Demo](http://fo.tooltip.mipinr.com  )
+[Demo](http://forsigner.com/fo-tooltip)
 
 ### Install
 
