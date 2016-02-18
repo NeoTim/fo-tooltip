@@ -5,13 +5,17 @@ A nice tooltip
 
 ### Install
 
-```
-bower install fo-tooltip --save
+``` bash
+$ bower install fo-tooltip --save
 ```
 
 #### Require
 
 [Beside](https://github.com/forsigner/beside)
+
+```bash
+$ bower install beside --save
+```
 
 ### Usage
 
