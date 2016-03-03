@@ -36,7 +36,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       element.on('mouseleave', function (e) {
         $timeout(function () {
-          if (!tooltip.element.hasClass('tooltip-hover')) {
+          if (!tooltip.element.hasClass('tooltip-hover') && !tooltip.element.hasClass('tooltip-editing')) {
             tooltip.close();
           }
         }, 200);
