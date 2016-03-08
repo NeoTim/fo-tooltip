@@ -22,6 +22,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
     restrict: 'A',
     scope: true,
     link: function link(scope, element, attr) {
+
       var tooltip = new Tooltip($templateCache, element, attr);
 
       appendToBody(tooltip.element);
@@ -29,31 +30,39 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       scope.closeTooltip = tooltip.close;
 
-      element.on('mouseover', function (e) {
-        angular.element(document.querySelector('.fo-tooltip')).removeClass('open');
+      element.on('mouseenter', function (e) {
+        tooltip.elementHover = true;
         tooltip.open();
       });
 
       element.on('mouseleave', function (e) {
+        tooltip.elementHover = false;
+
         $timeout(function () {
-          if (!tooltip.element.hasClass('tooltip-hover') && !tooltip.element.hasClass('tooltip-editing')) {
+          if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
           }
-        }, 200);
+        }, 500);
       });
 
       tooltip.element.on('mouseenter', function (e) {
-        tooltip.element.addClass('tooltip-hover');
-        tooltip.open();
+        tooltip.tooltipHover = true;
       });
 
       tooltip.element.on('mouseleave', function (e) {
-        tooltip.element.removeClass('tooltip-hover');
-        tooltip.close();
+        tooltip.tooltipHover = false;
+
+        $timeout(function () {
+          if (!tooltip.tooltipHover && !tooltip.elementHover) {
+            tooltip.close();
+          }
+        }, 500);
       });
 
       element.on('click', function (e) {
-        tooltip.close();
+        if (attr.clickHide) {
+          tooltip.close();
+        }
       });
     }
   };
@@ -71,24 +80,24 @@ module.exports = angular.module('foTooltip', [foTooltipDirective.name]);
 
 module.exports = {
   //top
-  top_center: '0 -10px',
-  top_left: '0 -10px',
-  top_right: '0 -10px',
+  top_center: '0 -6px',
+  top_left: '0 -6px',
+  top_right: '0 -6px',
 
   // bottom
-  bottom_center: '0 10px',
-  bottom_left: '0 10px',
-  bottom_right: '0 10px',
+  bottom_center: '0 6px',
+  bottom_left: '0 6px',
+  bottom_right: '0 6px',
 
   // left
-  left_center: '-10px 0',
-  left_top: '-10px 0',
-  left_bottom: '-10px 0',
+  left_center: '-6px 0',
+  left_top: '-6px 0',
+  left_bottom: '-6px 0',
 
   // right
-  right_center: '10px 0',
-  right_top: '10px 0',
-  right_bottom: '10px 0'
+  right_center: '6px 0',
+  right_top: '6px 0',
+  right_bottom: '6px 0'
 };
 
 },{}],4:[function(require,module,exports){
@@ -145,6 +154,10 @@ module.exports = function ($templateCache, element, attr) {
   this.close = (function () {
     this.element.removeClass('open');
   }).bind(this);
+
+  this.tooltipHover = false;
+
+  this.elementHover = false;
 };
 
 },{"./offset":3}]},{},[2]);

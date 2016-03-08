@@ -24,7 +24,7 @@
   width: 0;
   height: 0;
   border-color: transparent;
-  border-width: 10px;
+  border-width: 6px;
   border-style: solid;
   box-sizing: border-box;
 }
@@ -37,7 +37,7 @@
   border-top-color: #000;
   top: 100%;
   left: 50%;
-  margin-left: -10px;
+  margin-left: -6px;
 }
 .fo-tooltip.top-right:before {
   border-top-color: #000;
@@ -53,7 +53,7 @@
   border-right-color: #000;
   right: 100%;
   top: 50%;
-  margin-top: -10px;
+  margin-top: -6px;
 }
 .fo-tooltip.right-bottom:before {
   border-right-color: #000;
@@ -69,7 +69,7 @@
   border-bottom-color: #000;
   bottom: 100%;
   right: 50%;
-  margin-right: -10px;
+  margin-right: -6px;
 }
 .fo-tooltip.bottom-left:before {
   border-bottom-color: #000;
@@ -85,7 +85,7 @@
   border-left-color: #000;
   left: 100%;
   top: 50%;
-  margin-top: -10px;
+  margin-top: -6px;
 }
 .fo-tooltip.left-bottom:before {
   border-left-color: #000;
