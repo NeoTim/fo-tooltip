@@ -21,6 +21,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
     restrict: 'A',
     scope: true,
     link: function(scope, element, attr) {
+
       var tooltip = new Tooltip($templateCache, element, attr);
 
       appendToBody(tooltip.element);
@@ -28,31 +29,40 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       scope.closeTooltip = tooltip.close;
 
-      element.on('mouseover', function(e) {
-        angular.element(document.querySelector('.fo-tooltip')).removeClass('open');
+      element.on('mouseenter', function(e) {
+        tooltip.elementHover = true;
         tooltip.open();
       });
 
       element.on('mouseleave', function(e) {
+        tooltip.elementHover = false;
+
         $timeout(function() {
-          if ((!tooltip.element.hasClass('tooltip-hover')) && (!tooltip.element.hasClass('tooltip-editing'))) {
+          if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
           }
-        }, 200);
+        }, 500);
+
       });
 
       tooltip.element.on('mouseenter', function(e) {
-        tooltip.element.addClass('tooltip-hover');
-        tooltip.open();
+        tooltip.tooltipHover = true;
       });
 
       tooltip.element.on('mouseleave', function(e) {
-        tooltip.element.removeClass('tooltip-hover');
-        tooltip.close();
+        tooltip.tooltipHover = false;
+
+        $timeout(function() {
+          if (!tooltip.tooltipHover && !tooltip.elementHover) {
+            tooltip.close();
+          }
+        }, 500);
       });
 
       element.on('click', function(e) {
-        tooltip.close();
+        if (attr.clickHide) {
+          tooltip.close();
+        }
       });
 
     },

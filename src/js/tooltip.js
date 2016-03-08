@@ -49,4 +49,9 @@ module.exports = function($templateCache, element, attr) {
   this.close = function() {
     this.element.removeClass('open');
   }.bind(this);
+
+  this.tooltipHover = false;
+
+  this.elementHover = false;
+
 };
