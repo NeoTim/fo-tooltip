@@ -1,7 +1,7 @@
 {
   "name": "fo-tooltip",
-  "version": "1.1.3",
-  "description": "A nice tooltip",
+  "version": "1.1.4",
+  "description": "A nice tooltip for Angular",
   "main": "fo-tooltip.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,8 +12,10 @@
   },
   "keywords": [
     "angular",
-    "active",
-    "link"
+    "tooltip",
+    "angular-tooltip",
+    "beside",
+    "tether"
   ],
   "author": "forsigner",
   "license": "MIT",
