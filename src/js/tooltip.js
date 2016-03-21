@@ -16,7 +16,7 @@ module.exports = function($templateCache, element, attr) {
     return angular.element($wrapper).append(templateString);
   }
 
-  function placeToolitp(tooltipElement) {
+  function placeToolitp(tooltipElement, attr) {
     let besideOption = {
       me: element[0],
       you: tooltipElement[0],
@@ -32,6 +32,18 @@ module.exports = function($templateCache, element, attr) {
       where: attr.tooltipPosition
     });
 
+    if (attr.tooltipOffset) {
+      var tooltipOffset = attr.tooltipOffset.split(' ');
+      var defaultOffset = offset[position].split(' ');
+      var offsetX = parseInt(tooltipOffset[0], 10) + parseInt(defaultOffset[0], 10);
+      var offsetY = parseInt(tooltipOffset[1], 10) + parseInt(defaultOffset[1], 10);
+      var newOffset = offsetX + 'px ' + offsetY + 'px';
+
+      besideOption = angular.extend(besideOption, {
+        offset: newOffset,
+      });
+    }
+
     beside.init(besideOption);
   }
 
@@ -41,9 +53,9 @@ module.exports = function($templateCache, element, attr) {
     return this.element.hasClass('open');
   }.bind(this);
 
-  this.open = function() {
+  this.open = function(attr) {
     this.element.addClass('open');
-    placeToolitp(this.element);
+    placeToolitp(this.element, attr);
   }.bind(this);
 
   this.close = function() {

@@ -23,7 +23,6 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
     link: function(scope, element, attr) {
       var tooltip = new Tooltip($templateCache, element, attr);
       var delay = attr.tooltipDelay ? parseInt(attr.tooltipDelay) : 400;
-      console.log(delay);
 
       appendToBody(tooltip.element);
       compileToScope(tooltip.element, scope);
@@ -33,7 +32,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
       element.on('mouseenter', function(e) {
         tooltip.elementHover = true;
         angular.element(document.querySelectorAll('.fo-tooltip ')).removeClass('open');
-        tooltip.open();
+        tooltip.open(attr);
       });
 
       element.on('mouseleave', function(e) {
