@@ -22,8 +22,9 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
     restrict: 'A',
     scope: true,
     link: function link(scope, element, attr) {
-
       var tooltip = new Tooltip($templateCache, element, attr);
+      var delay = attr.tooltipDelay ? parseInt(attr.tooltipDelay) : 400;
+      console.log(delay);
 
       appendToBody(tooltip.element);
       compileToScope(tooltip.element, scope);
@@ -32,6 +33,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       element.on('mouseenter', function (e) {
         tooltip.elementHover = true;
+        angular.element(document.querySelectorAll('.fo-tooltip ')).removeClass('open');
         tooltip.open();
       });
 
@@ -42,7 +44,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
           if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
           }
-        }, 500);
+        }, delay);
       });
 
       tooltip.element.on('mouseenter', function (e) {
@@ -56,7 +58,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
           if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
           }
-        }, 500);
+        }, delay);
       });
 
       element.on('click', function (e) {
