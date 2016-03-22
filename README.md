@@ -31,7 +31,8 @@ $ bower install beside --save
 angular.module('app', ['foTooltip']);
 ```
 
-#### template-url
+#### Template-url
+
 ``` html
 <div
   class="tooltip-demo"
@@ -42,11 +43,14 @@ angular.module('app', ['foTooltip']);
 >
 Top Left
 </div>
+
 <script id="tooltip-top-left.html" type="text/ng-template">
   Top Left
 </script>
 ```
-#### template-str
+
+#### Template-str
+
 ``` html
 <div
   class="tooltip-demo"
@@ -59,3 +63,27 @@ Top Left
 </div>
 
 ```
+### Options
+
+- `tooltip-position` set tooltip position
+  - top left
+  - top center
+  - top_center
+  - top_left
+  - top_right
+  - bottom_center
+  - bottom_left
+  - bottom_right
+  - left_center
+  - left_top
+  - left_bottom
+  - right_center
+  - right_top
+  - right_bottom
+- `tooltip-template-url` use template content
+- `tooltip-templates-str` use string content
+- `tooltip-offset` offset base on tooltip
+- `tooltip-delay` delay after leave target or tooltip
+- `click-hide` click target to hide tooltip
+- `tooltip-class` class for tooltip element
+- `tooltip-id` id for tooltip element
