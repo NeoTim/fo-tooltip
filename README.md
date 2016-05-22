@@ -81,7 +81,7 @@ Top Left
   - right top
   - right bottom
 - `tooltip-template-url` use template content
-- `tooltip-templates-str` use string content
+- `tooltip-template-str` use string content
 - `tooltip-offset` offset base on tooltip
 - `tooltip-delay` delay after leave target or tooltip
 - `click-hide` click target to hide tooltip
