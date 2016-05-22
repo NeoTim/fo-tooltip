@@ -7,31 +7,19 @@ module.exports = angular
 foTooltip.$inject = ['$timeout', '$templateCache', '$document', '$compile'];
 
 function foTooltip($timeout, $templateCache, $document, $compile) {
-
-  function appendToBody(tooltipElement) {
-    $document.find('body').append(tooltipElement);
-  }
-
-  function compileToScope(toolitpElement, scope) {
-    $compile(toolitpElement)(scope);
-  }
-
   return {
 
     restrict: 'A',
     scope: true,
     link: function(scope, element, attr) {
-      var tooltip = new Tooltip($templateCache, element, attr);
+      var tooltip = new Tooltip($templateCache, element, attr, $document);
       var delay = attr.tooltipDelay ? parseInt(attr.tooltipDelay) : 400;
-
-      appendToBody(tooltip.element);
-      compileToScope(tooltip.element, scope);
 
       scope.closeTooltip = tooltip.close;
 
       element.on('mouseenter', function(e) {
         tooltip.elementHover = true;
-        angular.element(document.querySelectorAll('.fo-tooltip ')).removeClass('open');
+        angular.element($document[0].querySelectorAll('.fo-tooltip')).removeClass('open');
         tooltip.open(attr);
       });
 

@@ -8,31 +8,19 @@ module.exports = angular.module('foTooltip.directive', []).directive('foTooltip'
 foTooltip.$inject = ['$timeout', '$templateCache', '$document', '$compile'];
 
 function foTooltip($timeout, $templateCache, $document, $compile) {
-
-  function appendToBody(tooltipElement) {
-    $document.find('body').append(tooltipElement);
-  }
-
-  function compileToScope(toolitpElement, scope) {
-    $compile(toolitpElement)(scope);
-  }
-
   return {
 
     restrict: 'A',
     scope: true,
     link: function link(scope, element, attr) {
-      var tooltip = new Tooltip($templateCache, element, attr);
+      var tooltip = new Tooltip($templateCache, element, attr, $document);
       var delay = attr.tooltipDelay ? parseInt(attr.tooltipDelay) : 400;
-
-      appendToBody(tooltip.element);
-      compileToScope(tooltip.element, scope);
 
       scope.closeTooltip = tooltip.close;
 
       element.on('mouseenter', function (e) {
         tooltip.elementHover = true;
-        angular.element(document.querySelectorAll('.fo-tooltip ')).removeClass('open');
+        angular.element($document[0].querySelectorAll('.fo-tooltip')).removeClass('open');
         tooltip.open(attr);
       });
 
@@ -106,7 +94,7 @@ module.exports = {
 
 var offset = require('./offset');
 
-module.exports = function ($templateCache, element, attr) {
+module.exports = function ($templateCache, element, attr, $document) {
 
   function createTooltipElement() {
     var templateString = attr.tooltipTemplateStr ? attr.tooltipTemplateStr : $templateCache.get(attr.tooltipTemplateUrl);
@@ -122,6 +110,7 @@ module.exports = function ($templateCache, element, attr) {
     return angular.element($wrapper).append(templateString);
   }
 
+  var destroyBeside;
   function placeToolitp(tooltipElement, attr) {
     var besideOption = {
       me: element[0],
@@ -150,7 +139,7 @@ module.exports = function ($templateCache, element, attr) {
       });
     }
 
-    beside.init(besideOption);
+    destroyBeside = beside.init(besideOption);
   }
 
   this.element = createTooltipElement();
@@ -166,6 +155,9 @@ module.exports = function ($templateCache, element, attr) {
 
   this.close = (function () {
     this.element.removeClass('open');
+    if (destroyBeside) {
+      destroyBeside();
+    }
   }).bind(this);
 
   this.tooltipHover = false;
