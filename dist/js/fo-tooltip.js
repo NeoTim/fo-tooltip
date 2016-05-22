@@ -19,7 +19,8 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
       tooltipDelay: '@',
       clickHide: '@',
       tooltipClass: '@',
-      tooltipId: '@'
+      tooltipId: '@',
+      tooltipOnclose: '&'
     },
     link: function link(scope, element, attr) {
       var tooltip = new Tooltip($templateCache, element, attr, $document);
@@ -40,6 +41,9 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
       element.on('mouseleave', function (e) {
         tooltip.elementHover = false;
 
+        scope.$apply(function () {
+          scope.tooltipOnclose();
+        });
         $timeout(function () {
           if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
@@ -54,6 +58,9 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
       tooltip.element.on('mouseleave', function (e) {
         tooltip.tooltipHover = false;
 
+        scope.$apply(function () {
+          scope.tooltipOnclose();
+        });
         $timeout(function () {
           if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
@@ -63,6 +70,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       element.on('click', function (e) {
         if (attr.clickHide) {
+          scope.tooltipOnclose();
           tooltip.close();
         }
       });

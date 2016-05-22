@@ -87,3 +87,4 @@ Top Left
 - `click-hide` click target to hide tooltip
 - `tooltip-class` class for tooltip element
 - `tooltip-id` id for tooltip element
+- `tooltip-onclose` a function to be called when the tooltip is closed
