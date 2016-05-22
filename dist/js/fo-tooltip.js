@@ -27,6 +27,10 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       scope.closeTooltip = tooltip.close;
 
+      scope.$watch('tooltipTemplateStr', function (newVal) {
+        tooltip.element.text(newVal);
+      });
+
       element.on('mouseenter', function (e) {
         tooltip.elementHover = true;
         angular.element($document[0].querySelectorAll('.fo-tooltip')).removeClass('open');
