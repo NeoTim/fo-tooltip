@@ -11,7 +11,16 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
   return {
 
     restrict: 'A',
-    scope: true,
+    scope: {
+      tooltipPosition: '@',
+      tooltipTemplateUrl: '@',
+      tooltipTemplateStr: '@',
+      tooltipOffset: '@',
+      tooltipDelay: '@',
+      clickHide: '@',
+      tooltipClass: '@',
+      tooltipId: '@'
+    },
     link: function link(scope, element, attr) {
       var tooltip = new Tooltip($templateCache, element, attr, $document);
       var delay = attr.tooltipDelay ? parseInt(attr.tooltipDelay) : 400;
