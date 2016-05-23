@@ -50,6 +50,13 @@ module.exports = function($templateCache, element, attr, $document) {
 
   this.element = createTooltipElement();
 
+  this.updateToolitpPosition = function(attr) {
+    if (destroyBeside) {
+      destroyBeside();
+    }
+    placeToolitp(this.element, attr);
+  };
+
   this.isOpened = function() {
     return this.element.hasClass('open');
   }.bind(this);

@@ -30,6 +30,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       scope.$watch('tooltipTemplateStr', function (newVal) {
         tooltip.element.text(newVal);
+        tooltip.updateToolitpPosition(attr);
       });
 
       element.on('mouseenter', function (e) {
@@ -164,6 +165,13 @@ module.exports = function ($templateCache, element, attr, $document) {
   }
 
   this.element = createTooltipElement();
+
+  this.updateToolitpPosition = function (attr) {
+    if (destroyBeside) {
+      destroyBeside();
+    }
+    placeToolitp(this.element, attr);
+  };
 
   this.isOpened = (function () {
     return this.element.hasClass('open');

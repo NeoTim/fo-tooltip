@@ -29,6 +29,7 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       scope.$watch('tooltipTemplateStr', function(newVal) {
         tooltip.element.text(newVal);
+        tooltip.updateToolitpPosition(attr);
       });
 
       element.on('mouseenter', function(e) {
