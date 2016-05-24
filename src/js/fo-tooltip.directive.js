@@ -27,18 +27,29 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
 
       scope.closeTooltip = tooltip.close;
 
-      scope.$watch('tooltipTemplateStr', function(newVal) {
-        tooltip.element.text(newVal);
-        tooltip.updateToolitpPosition(attr);
+      var delayedTooltipTmplStrUpdate = false;
+      scope.$watch('tooltipTemplateStr', function(newVal, oldVal) {
+        if (typeof(newVal) === 'undefiend' || newVal === null) {
+          return;
+        }
+
+        if (newVal && newVal !== oldVal) {
+          if (!delayedTooltipTmplStrUpdate) {
+            tooltip.element.text(newVal);
+            tooltip.updateToolitpPosition(attr);
+          }
+        }
       });
 
       element.on('mouseenter', function(e) {
+        delayedTooltipTmplStrUpdate = false;
         tooltip.elementHover = true;
         angular.element($document[0].querySelectorAll('.fo-tooltip')).removeClass('open');
         tooltip.open(attr);
       });
 
       element.on('mouseleave', function(e) {
+        delayedTooltipTmplStrUpdate = true;
         tooltip.elementHover = false;
 
         scope.$apply(function () {
@@ -47,16 +58,21 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
         $timeout(function() {
           if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
+            if (delayedTooltipTmplStrUpdate) {
+              tooltip.element.text(scope.tooltipTemplateStr);
+            }
           }
         }, delay);
 
       });
 
       tooltip.element.on('mouseenter', function(e) {
+        delayedTooltipTmplStrUpdate = false;
         tooltip.tooltipHover = true;
       });
 
       tooltip.element.on('mouseleave', function(e) {
+        delayedTooltipTmplStrUpdate = true;
         tooltip.tooltipHover = false;
 
         scope.$apply(function () {
@@ -65,13 +81,15 @@ function foTooltip($timeout, $templateCache, $document, $compile) {
         $timeout(function() {
           if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
+            if (delayedTooltipTmplStrUpdate) {
+              tooltip.element.text(scope.tooltipTemplateStr);
+            }
           }
         }, delay);
       });
 
       element.on('click', function(e) {
         if (attr.clickHide) {
-          scope.tooltipOnclose();
           tooltip.close();
         }
       });

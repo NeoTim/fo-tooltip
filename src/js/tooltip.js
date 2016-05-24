@@ -25,6 +25,11 @@ module.exports = function($templateCache, element, attr, $document) {
       offset: '0 0'
     };
 
+    if (attr.tooltipTemplateStr) {
+      tooltipElement[0].removeAttribute('style');
+      tooltipElement[0].innerText = attr.tooltipTemplateStr;
+    }
+
     let position = attr.tooltipPosition.split(' ').join('_');
 
     besideOption = angular.extend(besideOption, {offset: offset[position]});
