@@ -1,6 +1,6 @@
 let offset = require('./offset');
 
-module.exports = function($templateCache, element, attr) {
+module.exports = function($templateCache, element, attr, $document) {
 
   function createTooltipElement() {
     let templateString = attr.tooltipTemplateStr ? (attr.tooltipTemplateStr) : $templateCache.get(attr.tooltipTemplateUrl);
@@ -16,6 +16,7 @@ module.exports = function($templateCache, element, attr) {
     return angular.element($wrapper).append(templateString);
   }
 
+  var destroyBeside;
   function placeToolitp(tooltipElement, attr) {
     let besideOption = {
       me: element[0],
@@ -23,6 +24,11 @@ module.exports = function($templateCache, element, attr) {
       where: 'bottom center',
       offset: '0 0'
     };
+
+    if (attr.tooltipTemplateStr) {
+      tooltipElement[0].removeAttribute('style');
+      tooltipElement[0].innerText = attr.tooltipTemplateStr;
+    }
 
     let position = attr.tooltipPosition.split(' ').join('_');
 
@@ -44,10 +50,17 @@ module.exports = function($templateCache, element, attr) {
       });
     }
 
-    beside.init(besideOption);
+    destroyBeside = beside.init(besideOption);
   }
 
   this.element = createTooltipElement();
+
+  this.updateToolitpPosition = function(attr) {
+    if (destroyBeside) {
+      destroyBeside();
+    }
+    placeToolitp(this.element, attr);
+  };
 
   this.isOpened = function() {
     return this.element.hasClass('open');
@@ -60,6 +73,9 @@ module.exports = function($templateCache, element, attr) {
 
   this.close = function() {
     this.element.removeClass('open');
+    if (destroyBeside) {
+      destroyBeside();
+    }
   }.bind(this);
 
   this.tooltipHover = false;

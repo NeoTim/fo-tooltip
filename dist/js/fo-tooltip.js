@@ -8,54 +8,82 @@ module.exports = angular.module('foTooltip.directive', []).directive('foTooltip'
 foTooltip.$inject = ['$timeout', '$templateCache', '$document', '$compile'];
 
 function foTooltip($timeout, $templateCache, $document, $compile) {
-
-  function appendToBody(tooltipElement) {
-    $document.find('body').append(tooltipElement);
-  }
-
-  function compileToScope(toolitpElement, scope) {
-    $compile(toolitpElement)(scope);
-  }
-
   return {
 
     restrict: 'A',
-    scope: true,
+    scope: {
+      tooltipPosition: '@',
+      tooltipTemplateUrl: '@',
+      tooltipTemplateStr: '@',
+      tooltipOffset: '@',
+      tooltipDelay: '@',
+      clickHide: '@',
+      tooltipClass: '@',
+      tooltipId: '@',
+      tooltipOnclose: '&'
+    },
     link: function link(scope, element, attr) {
-      var tooltip = new Tooltip($templateCache, element, attr);
+      var tooltip = new Tooltip($templateCache, element, attr, $document);
       var delay = attr.tooltipDelay ? parseInt(attr.tooltipDelay) : 400;
-
-      appendToBody(tooltip.element);
-      compileToScope(tooltip.element, scope);
 
       scope.closeTooltip = tooltip.close;
 
+      var delayedTooltipTmplStrUpdate = false;
+      scope.$watch('tooltipTemplateStr', function (newVal, oldVal) {
+        if (typeof newVal === 'undefiend' || newVal === null) {
+          return;
+        }
+
+        if (newVal && newVal !== oldVal) {
+          if (!delayedTooltipTmplStrUpdate) {
+            tooltip.element.text(newVal);
+            tooltip.updateToolitpPosition(attr);
+          }
+        }
+      });
+
       element.on('mouseenter', function (e) {
+        delayedTooltipTmplStrUpdate = false;
         tooltip.elementHover = true;
-        angular.element(document.querySelectorAll('.fo-tooltip ')).removeClass('open');
+        angular.element($document[0].querySelectorAll('.fo-tooltip')).removeClass('open');
         tooltip.open(attr);
       });
 
       element.on('mouseleave', function (e) {
+        delayedTooltipTmplStrUpdate = true;
         tooltip.elementHover = false;
 
+        scope.$apply(function () {
+          scope.tooltipOnclose();
+        });
         $timeout(function () {
           if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
+            if (delayedTooltipTmplStrUpdate) {
+              tooltip.element.text(scope.tooltipTemplateStr);
+            }
           }
         }, delay);
       });
 
       tooltip.element.on('mouseenter', function (e) {
+        delayedTooltipTmplStrUpdate = false;
         tooltip.tooltipHover = true;
       });
 
       tooltip.element.on('mouseleave', function (e) {
+        delayedTooltipTmplStrUpdate = true;
         tooltip.tooltipHover = false;
 
+        scope.$apply(function () {
+          scope.tooltipOnclose();
+        });
         $timeout(function () {
           if (!tooltip.tooltipHover && !tooltip.elementHover) {
             tooltip.close();
+            if (delayedTooltipTmplStrUpdate) {
+              tooltip.element.text(scope.tooltipTemplateStr);
+            }
           }
         }, delay);
       });
@@ -106,7 +134,7 @@ module.exports = {
 
 var offset = require('./offset');
 
-module.exports = function ($templateCache, element, attr) {
+module.exports = function ($templateCache, element, attr, $document) {
 
   function createTooltipElement() {
     var templateString = attr.tooltipTemplateStr ? attr.tooltipTemplateStr : $templateCache.get(attr.tooltipTemplateUrl);
@@ -122,6 +150,7 @@ module.exports = function ($templateCache, element, attr) {
     return angular.element($wrapper).append(templateString);
   }
 
+  var destroyBeside;
   function placeToolitp(tooltipElement, attr) {
     var besideOption = {
       me: element[0],
@@ -129,6 +158,11 @@ module.exports = function ($templateCache, element, attr) {
       where: 'bottom center',
       offset: '0 0'
     };
+
+    if (attr.tooltipTemplateStr) {
+      tooltipElement[0].removeAttribute('style');
+      tooltipElement[0].innerText = attr.tooltipTemplateStr;
+    }
 
     var position = attr.tooltipPosition.split(' ').join('_');
 
@@ -150,10 +184,17 @@ module.exports = function ($templateCache, element, attr) {
       });
     }
 
-    beside.init(besideOption);
+    destroyBeside = beside.init(besideOption);
   }
 
   this.element = createTooltipElement();
+
+  this.updateToolitpPosition = function (attr) {
+    if (destroyBeside) {
+      destroyBeside();
+    }
+    placeToolitp(this.element, attr);
+  };
 
   this.isOpened = (function () {
     return this.element.hasClass('open');
@@ -166,6 +207,9 @@ module.exports = function ($templateCache, element, attr) {
 
   this.close = (function () {
     this.element.removeClass('open');
+    if (destroyBeside) {
+      destroyBeside();
+    }
   }).bind(this);
 
   this.tooltipHover = false;
